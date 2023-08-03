@@ -36,7 +36,7 @@ export class AuthService {
     if (!userCheck) {
       return {
         status: 'error',
-        message: `Password sai rồi em ơi.`,
+        message: `Account hay Password sai rồi em ơi.`,
       };
     }
 
@@ -44,14 +44,15 @@ export class AuthService {
 
     const payload = { 
       email: nguoiDung.email,
-      loai_nguoi_dung: nguoiDung.loai_nguoi_dung
+      loai_nguoi_dung: nguoiDung.loai_nguoi_dung,
+      tai_khoan: nguoiDung.tai_khoan
     };
     return {
       status: 'success',
       message: 'Đăng nhập thành công!',
       userrole: nguoiDung.loai_nguoi_dung,
       access_token: this.jwtService.sign(payload, {
-        expiresIn: '15m',
+        expiresIn: '180m',
         secret: this.config.get('SECRET_KEY'),
       }),
     };
