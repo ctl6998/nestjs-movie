@@ -1,9 +1,9 @@
 import { Controller, Post } from '@nestjs/common';
 import { QuanLyNguoiDungService } from './quan-ly-nguoi-dung.service';
-import { Get, Body, Request } from '@nestjs/common';
+import { Get, Body, Request, Put, Delete } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { NguoiDungDtoForAdminUpdate } from 'src/auth/entities/auth.entities';
+import { NguoiDungDto, NguoiDungDtoForAdminUpdate, NguoiDungDtoForUpdate } from 'src/auth/entities/auth.entities';
 
 @Controller('api/QuanLyNguoiDung')
 export class QuanLyNguoiDungController {
@@ -73,4 +73,32 @@ export class QuanLyNguoiDungController {
     ) {
         return this.QuanLyNguoiDungService.PostThemNguoiDung(req.user.payload.loai_nguoi_dung,newUser)
     }
+    
+    @UseGuards(JwtAuthGuard)
+    @Put('CapNhatThongTinNguoiDung')
+    PutCapNhatThongTinNguoiDung(
+        @Request() req,
+        @Body() editUser: NguoiDungDtoForUpdate
+    ) {
+        return this.QuanLyNguoiDungService.PutCapNhatThongTinNguoiDung(Number(req.user.payload.tai_khoan),editUser)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('CapNhatThongTinNguoiDung')
+    PostCapNhatThongTinNguoiDung(
+        @Request() req,
+        @Body() editUser: NguoiDungDtoForUpdate
+    ) {
+        return this.QuanLyNguoiDungService.PutCapNhatThongTinNguoiDung(Number(req.user.payload.tai_khoan),editUser)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put('XoaNguoiDung')
+    XoaNguoiDung(
+        @Request() req,
+        @Body('TaiKhoan') TaiKhoan: string
+    ) {
+        return this.QuanLyNguoiDungService.DeleteXoaNguoiDung(req.user.payload.loai_nguoi_dung, TaiKhoan)
+    }
+
 }

@@ -19,7 +19,18 @@ export class NguoiDungDto  {
 }
 
 export class NguoiDungDtoForAdminUpdate {
-    // taiKhoan: string | null;
+    email: string | null;
+    matKhau: string | null;
+    soDt: string | null;
+
+    @IsString()
+    @IsMaLoaiNguoiDung()
+    maLoaiNguoiDung: string | null;
+    
+    hoTen: string | null;
+}
+
+export class NguoiDungDtoForUpdate {
     email: string | null;
     matKhau: string | null;
     soDt: string | null;
