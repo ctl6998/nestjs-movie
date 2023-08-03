@@ -73,12 +73,13 @@ model LichChieu {
 }
 
 model NguoiDung {
-  tai_khoan       Int     @id
-  ho_ten          String? @db.VarChar(255)
-  email           String? @db.VarChar(255)
-  so_dt           String? @db.VarChar(20)
-  mat_khau        String? @db.VarChar(255)
-  loai_nguoi_dung String? @db.VarChar(50)
+  tai_khoan       Int      @id @default(autoincrement())
+  ho_ten          String?  @db.VarChar(255)
+  email           String?  @unique(map: "unique_email") @db.VarChar(255)
+  so_dt           String?  @unique(map: "unique_so_dt") @db.VarChar(20)
+  mat_khau        String?  @db.VarChar(255)
+  loai_nguoi_dung String?  @db.VarChar(50)
+  is_remove       Boolean?
   DatVe           DatVe[]
 }
 
