@@ -189,6 +189,7 @@ export class QuanLyNguoiDungService {
           so_dt: userSignUp.soDt,
           mat_khau: hashedPassword,
           loai_nguoi_dung: userSignUp.maLoaiNguoiDung,
+          is_remove: false
         },
       });
 

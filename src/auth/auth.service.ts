@@ -95,6 +95,7 @@ export class AuthService {
           so_dt: userSignUp.so_dt,
           mat_khau: hashedPassword,
           loai_nguoi_dung: userSignUp.loai_nguoi_dung,
+          is_remove: false
         },
       });
 
