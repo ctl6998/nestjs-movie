@@ -125,6 +125,9 @@ export class QuanLyNguoiDungService {
       where: {
         email: taiKhoan,
       },
+      include: {
+        DatVe: true
+      }
     });
 
     if (loai_nguoi_dung === 'Admin') {

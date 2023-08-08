@@ -20,7 +20,15 @@ export class QuanLyPhimService {
         is_remove: false,
       },
       include: {
-        LichChieu: true,
+        LichChieu: {
+          include: {
+            RapPhim: {
+              include: {
+                Ghe: true,
+              },
+            },
+          },
+        },
       },
     });
     return data;
@@ -125,6 +133,7 @@ export class QuanLyPhimService {
   }
 
   async PostThemPhimUploadHinh(
+    loai_nguoi_dung,
     fileUpload: {
       hinhAnhUpload?: Express.Multer.File;
       bannerUpload?: Express.Multer.File;
@@ -144,6 +153,14 @@ export class QuanLyPhimService {
       } = formData;
       const { hinhAnhUpload, bannerUpload } = fileUpload;
 
+      if (loai_nguoi_dung !== 'Admin') {
+        return {
+          status: 'error',
+          userrole: loai_nguoi_dung,
+          message: 'Only Admin account can update Phim',
+        };
+      }
+
       const newPhim = await this.prisma.phim.create({
         data: {
           ten_phim: tenPhim,
@@ -155,7 +172,7 @@ export class QuanLyPhimService {
           hot: Boolean(hot),
           dang_chieu: Boolean(dangChieu),
           sap_chieu: Boolean(sapChieu),
-          is_remove: false
+          is_remove: false,
         },
       });
 
@@ -163,7 +180,7 @@ export class QuanLyPhimService {
         data: {
           ma_phim: newPhim.ma_phim,
           hinh_anh: bannerUpload[0].filename,
-          is_remove: false
+          is_remove: false,
         },
       });
 
@@ -312,13 +329,12 @@ export class QuanLyPhimService {
 
       const data = await this.prisma.phim.findFirst({
         where: {
-          ma_phim: Number(maPhim)
-        }
-      })
-      return data
-    } catch(error) {
+          ma_phim: Number(maPhim),
+        },
+      });
+      return data;
+    } catch (error) {
       console.error(error);
     }
   }
-
 }
