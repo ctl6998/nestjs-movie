@@ -13,6 +13,9 @@ import { QuanLyPhimController } from './quan-ly-phim/quan-ly-phim.controller';
 import { QuanLyPhimModule } from './quan-ly-phim/quan-ly-phim.module';
 import { QuanLyPhimService } from './quan-ly-phim/quan-ly-phim.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { QuanLyDatVeController } from './quan-ly-dat-ve/quan-ly-dat-ve.controller';
+import { QuanLyDatVeModule } from './quan-ly-dat-ve/quan-ly-dat-ve.module';
+import { QuanLyDatVeService } from './quan-ly-dat-ve/quan-ly-dat-ve.service';
 
 @Module({
   imports: [
@@ -25,9 +28,10 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     QuanLyPhimModule,
     ServeStaticModule.forRoot({
       rootPath: ".",
-    })
+    }),
+    QuanLyDatVeModule
   ],
-  controllers: [AppController, QuanLyRapController, QuanLyNguoiDungController, QuanLyPhimController],
-  providers: [AppService, QuanLyRapService, QuanLyNguoiDungService, QuanLyPhimService],
+  controllers: [AppController, QuanLyRapController, QuanLyNguoiDungController, QuanLyPhimController, QuanLyDatVeController],
+  providers: [AppService, QuanLyRapService, QuanLyNguoiDungService, QuanLyPhimService, QuanLyDatVeService],
 })
 export class AppModule {}

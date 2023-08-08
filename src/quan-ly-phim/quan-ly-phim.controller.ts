@@ -9,7 +9,7 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
-  Put
+  Put,
 } from '@nestjs/common';
 import { QuanLyPhimService } from './quan-ly-phim.service';
 import { diskStorage } from 'multer';
@@ -66,6 +66,7 @@ export class QuanLyPhimController {
     );
   }
 
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     FileFieldsInterceptor(
       [{ name: 'hinhAnhUpload' }, { name: 'bannerUpload' }],
@@ -79,9 +80,14 @@ export class QuanLyPhimController {
       hinhAnhUpload?: Express.Multer.File;
       bannerUpload?: Express.Multer.File;
     },
+    @Request() req,
     @Body() formData: formDataPhim,
   ) {
-    return this.QuanLyPhimService.PostThemPhimUploadHinh(fileUpload, formData);
+    return this.QuanLyPhimService.PostThemPhimUploadHinh(
+      req.user.payload.loai_nguoi_dung,
+      fileUpload,
+      formData
+    );
   }
 
   @UseGuards(JwtAuthGuard)
@@ -115,24 +121,18 @@ export class QuanLyPhimController {
 
   @UseGuards(JwtAuthGuard)
   @Put('XoaPhim')
-  XoaPhim(
-    @Body('MaPhim') maPhim: string
-  ) {
-    return this.QuanLyPhimService.DeleteXoaPhim(maPhim)
+  XoaPhim(@Body('MaPhim') maPhim: string) {
+    return this.QuanLyPhimService.DeleteXoaPhim(maPhim);
   }
 
   @UseGuards(JwtAuthGuard)
   @Put('XP')
-  XoaPhimXP(
-    @Body('MaPhim') maPhim: string
-  ) {
-    return this.QuanLyPhimService.DeleteXoaPhim(maPhim)
+  XoaPhimXP(@Body('MaPhim') maPhim: string) {
+    return this.QuanLyPhimService.DeleteXoaPhim(maPhim);
   }
 
   @Get('LayThongTinPhim')
-  LayThongTinPhim(
-    @Body('MaPhim') maPhim: string
-  ) {
-    return this.QuanLyPhimService.GetLayThongTinPhim(maPhim)
+  LayThongTinPhim(@Body('MaPhim') maPhim: string) {
+    return this.QuanLyPhimService.GetLayThongTinPhim(maPhim);
   }
 }
