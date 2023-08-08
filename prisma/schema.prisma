@@ -8,19 +8,21 @@ datasource db {
 }
 
 model Banner {
-  ma_banner Int     @id
+  ma_banner Int      @id @default(autoincrement())
   ma_phim   Int?
-  hinh_anh  String? @db.VarChar(255)
-  Phim      Phim?   @relation(fields: [ma_phim], references: [ma_phim], onDelete: NoAction, onUpdate: NoAction, map: "Banner_ibfk_1")
+  hinh_anh  String?  @db.VarChar(255)
+  is_remove Boolean?
+  Phim      Phim?    @relation(fields: [ma_phim], references: [ma_phim], onDelete: NoAction, onUpdate: NoAction, map: "Banner_ibfk_1")
 
   @@index([ma_phim], map: "ma_phim")
 }
 
 model CumRap {
-  ma_cum_rap      Int         @id
+  ma_cum_rap      Int         @id @default(autoincrement())
   ten_cum_rap     String?     @db.VarChar(255)
   dia_chi         String?     @db.VarChar(255)
   ma_he_thong_rap Int?
+  is_remove       Boolean?
   HeThongRap      HeThongRap? @relation(fields: [ma_he_thong_rap], references: [ma_he_thong_rap], onDelete: NoAction, onUpdate: NoAction, map: "CumRap_ibfk_1")
   RapPhim         RapPhim[]
 
@@ -31,6 +33,7 @@ model DatVe {
   tai_khoan     Int
   ma_lich_chieu Int
   ma_ghe        Int
+  is_remove     Boolean?
   NguoiDung     NguoiDung @relation(fields: [tai_khoan], references: [tai_khoan], onDelete: NoAction, onUpdate: NoAction, map: "DatVe_ibfk_1")
   LichChieu     LichChieu @relation(fields: [ma_lich_chieu], references: [ma_lich_chieu], onDelete: NoAction, onUpdate: NoAction, map: "DatVe_ibfk_2")
   Ghe           Ghe       @relation(fields: [ma_ghe], references: [ma_ghe], onDelete: NoAction, onUpdate: NoAction, map: "DatVe_ibfk_3")
@@ -41,29 +44,32 @@ model DatVe {
 }
 
 model Ghe {
-  ma_ghe   Int      @id
-  ten_ghe  String?  @db.VarChar(255)
-  loai_ghe String?  @db.VarChar(255)
-  ma_rap   Int?
-  DatVe    DatVe[]
-  RapPhim  RapPhim? @relation(fields: [ma_rap], references: [ma_rap], onDelete: NoAction, onUpdate: NoAction, map: "Ghe_ibfk_1")
+  ma_ghe    Int      @id @default(autoincrement())
+  ten_ghe   String?  @db.VarChar(255)
+  loai_ghe  String?  @db.VarChar(255)
+  ma_rap    Int?
+  is_remove Boolean?
+  DatVe     DatVe[]
+  RapPhim   RapPhim? @relation(fields: [ma_rap], references: [ma_rap], onDelete: NoAction, onUpdate: NoAction, map: "Ghe_ibfk_1")
 
   @@index([ma_rap], map: "ma_rap")
 }
 
 model HeThongRap {
-  ma_he_thong_rap  Int      @id
+  ma_he_thong_rap  Int      @id @default(autoincrement())
   ten_he_thong_rap String?  @db.VarChar(255)
   logo             String?  @db.VarChar(255)
+  is_remove        Boolean?
   CumRap           CumRap[]
 }
 
 model LichChieu {
-  ma_lich_chieu  Int       @id
+  ma_lich_chieu  Int       @id @default(autoincrement())
   ma_rap         Int?
   ma_phim        Int?
   ngay_gio_chieu DateTime? @db.DateTime(0)
   gia_ve         Int?
+  is_remove      Boolean?
   DatVe          DatVe[]
   RapPhim        RapPhim?  @relation(fields: [ma_rap], references: [ma_rap], onDelete: NoAction, onUpdate: NoAction, map: "LichChieu_ibfk_1")
   Phim           Phim?     @relation(fields: [ma_phim], references: [ma_phim], onDelete: NoAction, onUpdate: NoAction, map: "LichChieu_ibfk_2")
@@ -84,7 +90,7 @@ model NguoiDung {
 }
 
 model Phim {
-  ma_phim         Int         @id
+  ma_phim         Int         @id @default(autoincrement())
   ten_phim        String?     @db.VarChar(255)
   trailer         String?     @db.VarChar(255)
   hinh_anh        String?     @db.VarChar(255)
@@ -94,14 +100,16 @@ model Phim {
   hot             Boolean?
   dang_chieu      Boolean?
   sap_chieu       Boolean?
+  is_remove       Boolean?
   Banner          Banner[]
   LichChieu       LichChieu[]
 }
 
 model RapPhim {
-  ma_rap     Int         @id
+  ma_rap     Int         @id @default(autoincrement())
   ten_rap    String?     @db.VarChar(255)
   ma_cum_rap Int?
+  is_remove  Boolean?
   Ghe        Ghe[]
   LichChieu  LichChieu[]
   CumRap     CumRap?     @relation(fields: [ma_cum_rap], references: [ma_cum_rap], onDelete: NoAction, onUpdate: NoAction, map: "RapPhim_ibfk_1")

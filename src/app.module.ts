@@ -9,6 +9,10 @@ import { QuanLyNguoiDungModule } from './quan-ly-nguoi-dung/quan-ly-nguoi-dung.m
 import { QuanLyNguoiDungService } from './quan-ly-nguoi-dung/quan-ly-nguoi-dung.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { QuanLyPhimController } from './quan-ly-phim/quan-ly-phim.controller';
+import { QuanLyPhimModule } from './quan-ly-phim/quan-ly-phim.module';
+import { QuanLyPhimService } from './quan-ly-phim/quan-ly-phim.service';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
@@ -18,8 +22,12 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true
     }),
+    QuanLyPhimModule,
+    ServeStaticModule.forRoot({
+      rootPath: ".",
+    })
   ],
-  controllers: [AppController, QuanLyRapController, QuanLyNguoiDungController],
-  providers: [AppService, QuanLyRapService, QuanLyNguoiDungService],
+  controllers: [AppController, QuanLyRapController, QuanLyNguoiDungController, QuanLyPhimController],
+  providers: [AppService, QuanLyRapService, QuanLyNguoiDungService, QuanLyPhimService],
 })
 export class AppModule {}
